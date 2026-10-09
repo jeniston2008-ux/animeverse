@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Animeverse | Discover the stories. Celebrate the heroes.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #10131c;
+    --surface: #181b25;
+    --surface-2: #1c1f29;
+    --surface-3: #272a34;
+    --text: #e0e2ef;
+    --text-muted: #cbc3d7;
+    --text-dim: #958ea0;
+    --purple: #d0bcff;
+    --purple-strong: #a078ff;
+    --purple-deep: #6d3bd7;
+    --cyan: #7bd0ff;
+    --orange: #ffb869;
+    --green: #34d399;
+    --border: rgba(73, 68, 84, 0.3);
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(16, 19, 28, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; height: 72px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(160, 120, 255, 0.3);
+    display: grid; place-items: center; overflow: hidden;
+  }
+  .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
+  .brand-name {
+    font-family: var(--display); font-weight: 700; font-size: 18px;
+    letter-spacing: 1px; color: var(--text);
+  }
+  .nav { display: flex; gap: 24px; }
+  .nav a { font-size: 14px; color: var(--text-muted); transition: color .2s; }
+  .nav a:hover, .nav a.active { color: var(--purple); }
+  .header-search {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface-3); border-radius: 9999px;
+    padding: 8px 16px; min-width: 220px;
+  }
+  .header-search input {
+    background: none; border: 0; outline: 0; width: 100%;
+    font-size: 14px; color: var(--text);
+  }
+  .header-search input::placeholder { color: var(--text-dim); }
+
+  /* ---------- Shared bits ---------- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 9999px;
+    background: rgba(160, 120, 255, 0.2);
+    color: var(--purple); font-size: 12px; font-weight: 500;
+    letter-spacing: 1.2px; text-transform: uppercase;
+  }
+  .eyebrow.cyan { color: var(--cyan); background: rgba(39, 42, 52, 0.8); }
+  .section-title {
+    font-family: var(--display); font-weight: 700;
+    font-size: 40px; letter-spacing: -1px; line-height: 1.15; color: var(--text);
+  }
+  .section-sub { color: var(--text-muted); font-size: 16px; line-height: 1.7; max-width: 640px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 14px 24px; border: 0; border-radius: 12px; cursor: pointer;
+    background: linear-gradient(90deg, #a078ff, #6d3bd7);
+    color: #3c0091; font-weight: 600; font-size: 14px;
+    box-shadow: 0 10px 15px -3px rgba(160, 120, 255, 0.3), 0 4px 6px -4px rgba(160, 120, 255, 0.3);
+    transition: transform .15s, filter .2s;
+  }
+  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 14px 24px; border-radius: 12px; cursor: pointer;
+    background: rgba(39, 42, 52, 0.6); border: 0;
+    color: var(--text); font-weight: 600; font-size: 14px;
+    transition: background .2s;
+  }
+  .btn-ghost:hover { background: rgba(39, 42, 52, 0.9); }
+  .divider-line {
+    width: 32px; height: 2px; border-radius: 9999px;
+    background: linear-gradient(90deg, var(--purple), rgba(208, 188, 255, 0));
+  }
+
+  /* ---------- 1. Hero ---------- */
+  .hero { padding: 80px 0 40px; position: relative; overflow: hidden; }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 9999px; pointer-events: none;
+  }
+  .hero::before {
+    width: 620px; height: 620px; top: 40px; left: 25%;
+    background: rgba(208, 188, 255, 0.1); filter: blur(70px);
+  }
+  .hero::after {
+    width: 500px; height: 500px; top: 384px; right: 40px;
+    background: rgba(123, 208, 255, 0.1); filter: blur(80px);
+  }
+  .hero-grid {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 5fr 7fr; gap: 40px; align-items: center;
+  }
+  .hero-text { display: flex; flex-direction: column; gap: 16px; }
+  .hero-title {
+    font-family: var(--display); font-weight: 700;
+    font-size: 56px; letter-spacing: -1.4px; line-height: 1.1; color: var(--text);
+  }
+  .hero-title .grad {
+    background: linear-gradient(90deg, #d0bcff, #a078ff 50%, #7bd0ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 12px rgba(160, 120, 255, 0.35));
+  }
+  .hero-lead { font-size: 18px; color: var(--text-muted); line-height: 1.6; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding-top: 4px; }
+  .hero-tagline {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-style: italic; color: rgba(203, 195, 215, 0.8);
+  }
+  .stats-row { display: flex; gap: 8px; padding-top: 8px; }
+  .stat-chip {
+    flex: 1; background: rgba(24, 27, 37, 0.7);
+    backdrop-filter: blur(2px); border-radius: 8px; padding: 8px;
+  }
+  .stat-chip .value {
+    font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--purple);
+  }
+  .stat-chip .label { font-size: 12px; font-weight: 500; color: var(--text-dim); }
+  .stat-chip.cyan .value { color: var(--cyan); }
+  .stat-chip.orange .value { color: var(--orange); }
+
+  .hero-art {
+    position: relative; border-radius: 16px;
+  }
+  .hero-art::before {
+    content: ""; position: absolute; inset: -8px; border-radius: 16px;
+    background: linear-gradient(90deg, rgba(208, 188, 255, 0.2), rgba(160, 120, 255, 0.2), rgba(123, 208, 255, 0.2));
+    filter: blur(12px); opacity: .75;
+  }
+  .artwork {
+    position: relative; height: 620px; border-radius: 16px; overflow: hidden;
+    background: var(--surface); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  .artwork img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  }
+  .artwork .scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to top, rgba(11, 14, 23, 0.8), rgba(11, 14, 23, 0) 50%),
+      linear-gradient(to right, rgba(11, 14, 23, 0.6), rgba(11, 14, 23, 0));
+  }
+  .pill-top {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(11, 14, 23, 0.85); backdrop-filter: blur(6px);
+    padding: 4px 16px; border-radius: 9999px;
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--display); font-weight: 700; font-size: 10px; color: var(--cyan); letter-spacing: 1px;
+  }
+  .pill-bottom {
+    position: absolute; left: 16px; right: 16px; bottom: 16px;
+    background: rgba(11, 14, 23, 0.9); backdrop-filter: blur(8px);
+    border-radius: 12px; padding: 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .pill-bottom .title {
+    font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--text);
+  }
+  .pill-bottom .meta { font-size: 12px; color: var(--text-muted); }
+  .pill-bottom .icon-box {
+    width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(160, 120, 255, 0.3); display: grid; place-items: center; color: var(--purple);
+  }
+
+  /* ---------- 2. Hall of Fame ---------- */
+  .fame { padding: 40px 0 80px; }
+  .fame-header { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; margin-bottom: 40px; }
+  .fame-header .section-sub { text-align: center; }
+  .gallery {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px;
+  }
+  .gallery .card { grid-column: span 2; }
+  .gallery .card:nth-child(4) { grid-column: 1 / span 3; }
+  .gallery .card:nth-child(5) { grid-column: 4 / span 3; }
+  .card {
+    background: var(--surface-2); border-radius: 16px; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transition: transform .25s;
+  }
+  .card:hover { transform: translateY(-4px); }
+  .card-media { position: relative; height: 220px; overflow: hidden; }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; }
+  .card-media::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, #1c1f29, rgba(28, 31, 41, 0) 70%);
+  }
+  .card-badge {
+    position: absolute; top: 14px; left: 14px; z-index: 1;
+    background: #272a34; padding: 4px 8px; border-radius: 6px;
+    font-family: var(--display); font-weight: 700; font-size: 10px; letter-spacing: .5px; color: var(--cyan);
+  }
+  .card-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card-date { font-size: 12px; color: var(--text-dim); }
+  .card-title { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--text); line-height: 1.2; }
+  .card-creator { font-size: 13px; color: var(--purple); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 9999px;
+    background: rgba(123, 208, 255, 0.12); color: var(--cyan);
+  }
+  .card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .card-foot {
+    margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-size: 12px; color: var(--text-dim); font-weight: 500;
+  }
+  .card-foot .view { color: var(--purple); font-weight: 600; font-size: 13px; }
+  .fame-cta { display: flex; justify-content: center; margin-top: 48px; }
+
+  /* ---------- 3. Favorite form ---------- */
+  .join { padding: 40px 0 80px; }
+  .join-grid {
+    display: grid; grid-template-columns: 5fr 7fr; gap: 40px; align-items: stretch;
+  }
+  .join-left {
+    position: relative; overflow: hidden;
+    background: linear-gradient(134deg, #272a34 0%, #1c1f29 50%, #181b25 100%);
+    border-radius: 16px; padding: 40px;
+    display: flex; flex-direction: column; gap: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+  .join-left h2 { font-family: var(--display); font-weight: 700; font-size: 40px; letter-spacing: -1px; line-height: 1.15; }
+  .trivia { display: flex; gap: 16px; padding: 8px 0; }
+  .trivia-card {
+    flex: 1; background: rgba(11, 14, 23, 0.7); backdrop-filter: blur(6px);
+    border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .trivia-card .k {
+    font-family: var(--display); font-weight: 700; font-size: 10px; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .trivia-card.orange .k { color: var(--orange); }
+  .trivia-card .v { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--text); padding-top: 4px; }
+  .trivia-card .d { font-size: 12px; color: var(--text-dim); }
+  .join-foot {
+    border-top: 1px solid var(--border); padding-top: 17px; margin-top: auto;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .join-foot .l { font-size: 12px; font-weight: 500; color: var(--text-dim); }
+  .live { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text); }
+  .live .dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--green); }
+  .glow {
+    position: absolute; right: -40px; bottom: -40px; width: 256px; height: 256px;
+    border-radius: 9999px; background: rgba(208, 188, 255, 0.2); filter: blur(32px); pointer-events: none;
+  }
+
+  .join-right {
+    background: var(--surface-2); border-radius: 16px; padding: 40px;
+    display: flex; flex-direction: column; gap: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  .form-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .form-head h3 { font-family: var(--display); font-weight: 700; font-size: 28px; color: var(--text); }
+  .form-head p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+  .form-head .heart {
+    width: 40px; height: 40px; border-radius: 9999px; flex-shrink: 0;
+    background: rgba(160, 120, 255, 0.2); display: grid; place-items: center; color: var(--purple);
+  }
+  form.fan-form { display: flex; flex-direction: column; gap: 20px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: 14px; font-weight: 600; color: var(--text); }
+  .field input {
+    width: 100%; background: var(--surface-3); border: 1px solid transparent; border-radius: 12px;
+    padding: 14px 16px; font-size: 15px; color: var(--text); outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .field input::placeholder { color: var(--text-dim); }
+  .field input:focus { border-color: var(--purple-strong); box-shadow: 0 0 0 3px rgba(160, 120, 255, 0.2); }
+  .field input:invalid:not(:placeholder-shown) { border-color: #ff8a8a; }
+  .submit-row { display: flex; flex-direction: column; gap: 12px; }
+  .submit-row .btn-primary { width: 100%; }
+  .submit-row .btn-primary:disabled { opacity: .6; cursor: wait; transform: none; }
+  .status {
+    font-size: 14px; min-height: 20px; text-align: center; color: var(--text-muted);
+  }
+  .status.ok { color: var(--green); }
+  .status.err { color: #ff8a8a; }
+  .form-note { font-size: 12px; color: var(--text-dim); text-align: center; }
+
+  /* ---------- 4. Reviews & feedback ---------- */
+  .feedback { padding: 40px 0 80px; }
+  .feedback-header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; margin-bottom: 40px; }
+  .feedback-header .section-sub { text-align: center; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+  .chip {
+    background: var(--surface-3); border: 0; cursor: pointer; border-radius: 9999px;
+    padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted);
+    transition: background .2s, color .2s;
+  }
+  .chip:hover, .chip.active { background: rgba(160, 120, 255, 0.25); color: var(--purple); }
+  .feedback-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 40px; align-items: start; }
+  .panel {
+    background: var(--surface-2); border-radius: 16px; padding: 40px;
+    display: flex; flex-direction: column; gap: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  .panel .label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .stars { display: flex; gap: 8px; align-items: center; }
+  .star {
+    width: 40px; height: 40px; border-radius: 8px; border: 0; cursor: pointer;
+    background: var(--surface-3); color: var(--text-dim); font-size: 18px;
+    transition: background .2s, color .2s;
+  }
+  .star.on { background: rgba(255, 184, 105, 0.2); color: var(--orange); }
+  .rating-note { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+  .feedback-form { display: flex; flex-direction: column; gap: 20px; }
+  .feedback-form .field textarea,
+  .feedback-form .field select {
+    width: 100%; background: var(--surface-3); border: 0; border-radius: 12px;
+    padding: 14px 16px; font-size: 15px; color: var(--text); outline: none; resize: vertical; min-height: 96px;
+  }
+  .feedback-form .field input::placeholder,
+  .feedback-form .field textarea::placeholder { color: var(--text-dim); }
+  .reviews { display: flex; flex-direction: column; gap: 24px; }
+  .review {
+    background: rgba(24, 27, 37, 0.85); border-radius: 16px; padding: 28px;
+    display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  .review .verified { font-family: var(--display); font-weight: 700; font-size: 10px; letter-spacing: 1px; color: var(--cyan); }
+  .review .quote { font-size: 15px; line-height: 1.7; color: var(--text-muted); font-style: italic; }
+  .review .who { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 9999px; flex-shrink: 0;
+    background: linear-gradient(135deg, #a078ff, #7bd0ff);
+    display: grid; place-items: center; font-family: var(--display); font-weight: 700; color: #10131c;
+  }
+  .review .name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .review .role { font-size: 12px; color: var(--text-dim); }
+  .stars-mini { color: var(--orange); font-size: 12px; letter-spacing: 2px; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 64px 0 32px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1.4fr; gap: 40px;
+  }
+  .footer-brand p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-top: 14px; max-width: 320px; }
+  .socials { display: flex; gap: 12px; margin-top: 20px; }
+  .socials a {
+    width: 36px; height: 36px; border-radius: 9999px; background: var(--surface-3);
+    display: grid; place-items: center; color: var(--text-muted); font-size: 13px; font-weight: 600;
+    transition: color .2s, background .2s;
+  }
+  .socials a:hover { color: var(--purple); background: rgba(160, 120, 255, 0.2); }
+  .footer-col h4 {
+    font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--text); margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { font-size: 14px; color: var(--text-muted); transition: color .2s; }
+  .footer-col a:hover { color: var(--purple); }
+  .contact-box {
+    margin-top: 12px; background: var(--surface-3); border-radius: 12px; padding: 16px;
+    font-size: 13px; color: var(--text-muted); line-height: 1.6;
+  }
+  .contact-box .mail { color: var(--cyan); font-weight: 500; font-size: 14px; }
+  .footer-legal {
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 12px; font-size: 12px; color: var(--text-dim);
+  }
+  .footer-legal .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .footer-legal .row a:hover { color: var(--purple); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .nav { display: none; }
+    .hero-title { font-size: 46px; }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .gallery .card, .gallery .card:nth-child(4), .gallery .card:nth-child(5) { grid-column: auto; }
+    .gallery .card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 860px) {
+    .hero-grid, .join-grid, .feedback-grid { grid-template-columns: 1fr; }
+    .hero-art { order: -1; }
+    .artwork { height: 420px; }
+    .section-title, .join-left h2 { font-size: 32px; }
+    .hero-title { font-size: 40px; }
+  }
+  @media (max-width: 640px) {
+    .header-search { display: none; }
+    .gallery { grid-template-columns: 1fr; }
+    .gallery .card:last-child:nth-child(odd) { grid-column: auto; }
+    .join-left, .join-right, .panel { padding: 24px; }
+    .trivia { flex-direction: column; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero { padding-top: 40px; }
+    .hero-title { font-size: 34px; letter-spacing: -0.8px; }
+    .artwork { height: 340px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#" class="brand">
+      <span class="brand-mark"><img src="https://www.figma.com/api/mcp/asset/e5fca030-7ff6-46ff-a78e-764f15278ce0.png" alt="Animeverse logo" /></span>
+      <span class="brand-name">ANIMEVERSE</span>
+    </a>
+    <nav class="nav">
+      <a href="#" class="active">Home</a>
+      <a href="#explore">Explore Anime</a>
+      <a href="#fame">Popular Anime</a>
+      <a href="#community">Community</a>
+    </nav>
+    <label class="header-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#958ea0" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" placeholder="Search anime..." aria-label="Search anime" />
+    </label>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== 1. HERO ===== -->
+<section class="hero" id="explore">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#7bd0ff"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>
+        Your next adventure starts here
+      </span>
+      <h1 class="hero-title">
+        Enter the<br />
+        <span class="grad">World of<br />Anime.</span>
+      </h1>
+      <p class="hero-lead">
+        From unforgettable heroes to heartbreaking stories, discover the anime that stays with you long after the final episode. Explore legendary adventures, meet iconic characters, and find your next obsession.
+      </p>
+      <div class="cta-row">
+        <a href="#fame" class="btn-primary">Explore Anime</a>
+        <a href="#join" class="btn-ghost">Discover Your Favorite</a>
+      </div>
+      <div class="hero-tagline">
+        <span style="width:32px;height:2px;background:linear-gradient(90deg,#d0bcff,rgba(208,188,255,0));border-radius:9999px;display:inline-block"></span>
+        Discover stories. Find your fandom.
+      </div>
+      <div class="stats-row">
+        <div class="stat-chip">
+          <div class="value">5,400+</div>
+          <div class="label">Curated Series</div>
+        </div>
+        <div class="stat-chip cyan">
+          <div class="value">98.4%</div>
+          <div class="label">Fan Rating</div>
+        </div>
+        <div class="stat-chip orange">
+          <div class="value">Global</div>
+          <div class="label">Community</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="artwork">
+        <img src="https://www.figma.com/api/mcp/asset/8a0738fd-a623-4db1-b5fc-1754020fc71b.png" alt="Anime swordsman standing on a mountain peak overlooking celestial floating islands and a twilight sky" />
+        <div class="scrim"></div>
+        <div class="pill-top">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#7bd0ff"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+          4K SIMULCAST
+        </div>
+        <div class="pill-bottom">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#d0bcff"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div>
+              <div class="title">The Celestial Gateways</div>
+              <div class="meta">Action • Shonen • Cosmic Fantasy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. HALL OF FAME GALLERY ===== -->
+<section class="fame" id="fame">
+  <div class="container">
+    <div class="fame-header">
+      <span class="eyebrow">Hall of Fame</span>
+      <h2 class="section-title">Stories That Became Legends</h2>
+      <p class="section-sub">
+        Every great anime has a story worth remembering. From the determination of a young ninja to the battles of a world beyond the walls, discover the creators, release dates, and unforgettable journeys behind some of the medium's greatest works.
+      </p>
+    </div>
+
+    <div class="gallery">
+      <article class="card">
+        <div class="card-media">
+          <span class="card-badge">CLASSIC SHONEN</span>
+          <img src="https://www.figma.com/api/mcp/asset/444a31a7-bfbe-4314-abad-75e909401760.png" alt="Naruto artwork" />
+        </div>
+        <div class="card-body">
+          <div class="card-date">Oct 3, 2002</div>
+          <h3 class="card-title">Naruto</h3>
+          <div class="card-creator">Masashi Kishimoto (Original Manga Creator)</div>
+          <div class="tags"><span class="tag">Action</span><span class="tag">Adventure</span><span class="tag">Coming-of-age</span></div>
+          <p class="card-desc">A determined young ninja dreams of becoming the Hokage, the strongest and most respected leader in his village. Through loneliness, powerful enemies, and difficult choices, Naruto proves that perseverance and friendship can change even the hardest hearts.</p>
+          <div class="card-foot"><span>EPISODES: 720 TOTAL</span><a href="#" class="view">View Details</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-media">
+          <span class="card-badge">CLASSIC SHONEN</span>
+          <img src="https://www.figma.com/api/mcp/asset/d7043f13-7691-4cbe-89a2-e5bd13fdb75b.png" alt="One Piece artwork" />
+        </div>
+        <div class="card-body">
+          <div class="card-date">Oct 20, 1999</div>
+          <h3 class="card-title">One Piece</h3>
+          <div class="card-creator">Eiichiro Oda (Original Manga Creator)</div>
+          <div class="tags"><span class="tag">Adventure</span><span class="tag">Action</span><span class="tag">Fantasy</span></div>
+          <p class="card-desc">Monkey D. Luffy sets sail across the Grand Line with a crew of misfits in search of the ultimate treasure and the title of Pirate King, meeting unforgettable allies along the way.</p>
+          <div class="card-foot"><span>EPISODES: 1000+ TOTAL</span><a href="#" class="view">View Details</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-media">
+          <span class="card-badge">WIT STUDIO LEGEND</span>
+          <img src="https://www.figma.com/api/mcp/asset/4f3a492b-577f-4fbc-807d-0941ed260d37.png" alt="Attack on Titan artwork" />
+        </div>
+        <div class="card-body">
+          <div class="card-date">Apr 7, 2013</div>
+          <h3 class="card-title">Attack on Titan</h3>
+          <div class="card-creator">Hajime Isayama (Original Manga Creator)</div>
+          <div class="tags"><span class="tag">Dark Fantasy</span><span class="tag">Action</span><span class="tag">Drama</span></div>
+          <p class="card-desc">Humanity survives behind enormous walls, terrified of the Titans that threaten to destroy everything. A journey filled with secrets, sacrifice, freedom, and the true cost of revenge awaits.</p>
+          <div class="card-foot"><span>EPISODES: 89 COMPLETE</span><a href="#" class="view">View Details</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-media">
+          <span class="card-badge">UFOTABLE MASTERPIECE</span>
+          <img src="https://www.figma.com/api/mcp/asset/bde51717-8ca3-4971-a62a-01ab307043cd.png" alt="Demon Slayer artwork" />
+        </div>
+        <div class="card-body">
+          <div class="card-date">Apr 6, 2019</div>
+          <h3 class="card-title">Demon Slayer: Kimetsu no Yaiba</h3>
+          <div class="card-creator">Koyoharu Gotouge (Original Manga Creator)</div>
+          <div class="tags"><span class="tag">Action</span><span class="tag">Dark Fantasy</span><span class="tag">Adventure</span></div>
+          <p class="card-desc">After a demon attack changes his family forever, Tanjiro Kamado joins the Demon Slayer Corps to save his sister and protect others from the same fate. Stunning battles meet a deeply human story.</p>
+          <div class="card-foot"><span>SEASONS: 4 + MOVIES</span><a href="#" class="view">View Details</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-media">
+          <span class="card-badge">MAPPA SENSATION</span>
+          <img src="https://www.figma.com/api/mcp/asset/d6342751-5d06-42ea-b045-7796e7cf91bb.png" alt="Jujutsu Kaisen artwork" />
+        </div>
+        <div class="card-body">
+          <div class="card-date">Oct 3, 2020</div>
+          <h3 class="card-title">Jujutsu Kaisen</h3>
+          <div class="card-creator">Gege Akutami (Original Manga Creator)</div>
+          <div class="tags"><span class="tag">Supernatural</span><span class="tag">Action</span><span class="tag">Dark Fantasy</span></div>
+          <p class="card-desc">Yuji Itadori enters the dangerous world of cursed spirits after swallowing a powerful cursed object. Extraordinary abilities, complex characters, and high-stakes battles explore what it means to live with purpose.</p>
+          <div class="card-foot"><span>SEASONS: 2 + SHIBUYA INCIDENT</span><a href="#" class="view">View Details</a></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="fame-cta">
+      <a href="#" class="btn-primary">Explore More Anime</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. FAVORITE FORM ===== -->
+<section class="join" id="join">
+  <div class="container join-grid">
+    <div class="join-left">
+      <span class="eyebrow">Community Voice</span>
+      <h2>Every Fan Has a<br />Favorite.</h2>
+      <p class="section-sub" style="font-size:18px">
+        Whether you live for epic battles, emotional stories, romance, or unexpected plot twists, we want to know what makes you an anime fan.
+      </p>
+
+      <div class="trivia">
+        <div class="trivia-card">
+          <div class="k">Global Impact</div>
+          <div class="v">10,000+</div>
+          <div class="d">Community Submissions</div>
+        </div>
+        <div class="trivia-card orange">
+          <div class="k">Current Leader</div>
+          <div class="v">Top Voted</div>
+          <div class="d">Shonen Classics Series</div>
+        </div>
+      </div>
+
+      <div class="join-foot">
+        <span class="l">Realtime Community Pulse</span>
+        <span class="live"><span class="dot"></span>Active Now</span>
+      </div>
+      <div class="glow"></div>
+    </div>
+
+    <div class="join-right">
+      <div class="form-head">
+        <div>
+          <h3>Tell Us Your Favorite</h3>
+          <p>Share your top pick and inspire the next fan.</p>
+        </div>
+        <div class="heart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#d0bcff"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        </div>
+      </div>
+
+      <form class="fan-form" id="fanForm" novalidate>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="favourite">Favourite Anime</label>
+          <input id="favourite" name="favourite" type="text" placeholder="e.g., Naruto, One Piece, Jujutsu Kaisen" required />
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn-primary" id="submitBtn">Share My Favorite</button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+          <div class="form-note">Your thoughts help us build a better anime community.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. REVIEWS & FEEDBACK ===== -->
+<section class="feedback" id="community">
+  <div class="container">
+    <div class="feedback-header">
+      <span class="eyebrow">User Feedback</span>
+      <h2 class="section-title">Help Us Make This World Better</h2>
+      <p class="section-sub">
+        Your opinion matters as much as your favorite anime. We're building this space for fans like you, and your feedback helps us make it more enjoyable, useful, and exciting.
+      </p>
+      <div class="chips">
+        <button class="chip active" type="button">Website Design</button>
+        <button class="chip" type="button">Anime Recommendations</button>
+        <button class="chip" type="button">New Features</button>
+      </div>
+    </div>
+
+    <div class="feedback-grid">
+      <div class="panel">
+        <div>
+          <div class="label">Overall Experience Rating</div>
+          <div class="stars" id="stars">
+            <button type="button" class="star" data-v="1" aria-label="1 star">★</button>
+            <button type="button" class="star" data-v="2" aria-label="2 stars">★</button>
+            <button type="button" class="star" data-v="3" aria-label="3 stars">★</button>
+            <button type="button" class="star" data-v="4" aria-label="4 stars">★</button>
+            <button type="button" class="star" data-v="5" aria-label="5 stars">★</button>
+          </div>
+          <div class="rating-note" id="ratingNote">Select a score</div>
+        </div>
+
+        <form class="feedback-form" onsubmit="event.preventDefault();">
+          <div class="field">
+            <label>What did you like about the website?</label>
+            <input type="text" placeholder="The dark aesthetic, legendary cards, clean layout..." />
+          </div>
+          <div class="field">
+            <label>What should we improve?</label>
+            <textarea placeholder="Additional filter tags, watch tracker, episode countdowns..."></textarea>
+          </div>
+          <div class="field">
+            <label>Which anime should we feature next? (Optional)</label>
+            <input type="text" placeholder="e.g., Hunter x Hunter, Death Note, Vinland Saga..." />
+          </div>
+          <button type="button" class="btn-primary" style="width:100%">Send Feedback</button>
+        </form>
+      </div>
+
+      <div class="reviews">
+        <article class="review">
+          <div class="verified">VERIFIED COMMUNITY REVIEW</div>
+          <div class="stars-mini">★★★★★</div>
+          <p class="quote">"The typography and neon cyber-aesthetic give this platform an authentic anime cinematic vibe. Love the breakdown of creator credits for classics like One Piece and Jujutsu Kaisen."</p>
+          <div class="who">
+            <div class="avatar">K</div>
+            <div>
+              <div class="name">Kaito Tanaka</div>
+              <div class="role">Animeverse Enthusiast • 2 hours ago</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <div class="verified">VERIFIED COMMUNITY REVIEW</div>
+          <div class="stars-mini">★★★★★</div>
+          <p class="quote">"Submitting favorites is super smooth. Really hoping you feature Fullmetal Alchemist and Bleach next! Keep this dark mode vibe, it is stunning on OLED."</p>
+          <div class="who">
+            <div class="avatar">S</div>
+            <div>
+              <div class="name">Sarah V.</div>
+              <div class="role">Shonen Guild Member • Yesterday</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="brand">
+          <span class="brand-mark"><img src="https://www.figma.com/api/mcp/asset/e5fca030-7ff6-46ff-a78e-764f15278ce0.png" alt="Animeverse logo" /></span>
+          <span class="brand-name">ANIMEVERSE</span>
+        </a>
+        <p>Discover the stories. Celebrate the heroes. Live the adventure.</p>
+        <div class="socials">
+          <a href="#" aria-label="Social channel 1">X</a>
+          <a href="#" aria-label="Social channel 2">IG</a>
+          <a href="#" aria-label="Social channel 3">YT</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#explore">Explore Anime</a></li>
+          <li><a href="#fame">Popular Anime</a></li>
+          <li><a href="#">Genres</a></li>
+          <li><a href="#">Fan Favorites</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#join">Share Your Favorite</a></li>
+          <li><a href="#community">Send Feedback</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">About Animeverse</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="contact-box">
+          <div>Let's Connect</div>
+          <a href="mailto:hello@yourwebsite.com" class="mail">hello@yourwebsite.com</a>
+          <div style="margin-top:8px">Have a suggestion or an anime we should feature? We'd love to hear from you.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="row">
+        <a href="#">Privacy Policy</a><span>•</span><a href="#">Terms of Use</a><span>•</span><span>© 2026 Animeverse. All rights reserved.</span>
+      </div>
+      <div>
+        Animeverse is an independent fan project. Anime titles, characters, and associated artwork belong to their respective rights holders. This website is not affiliated with or endorsed by the original creators or studios.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- Config ----------
+  // Deployed Google Apps Script Web App URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzK3Er3DkajrnC_SQEWqEhcB39JFoAbiD4qTcviSgm3ZnSwFT0-ibsM0ZDrxAh3fNrW/exec";
+
+  // ---------- Form submission ----------
+  const form = document.getElementById("fanForm");
+  const statusEl = document.getElementById("status");
+  const submitBtn = document.getElementById("submitBtn");
+
+  function showSuccess() {
+    statusEl.className = "status ok";
+    statusEl.textContent = "Thanks! Your favorite has been shared.";
+    form.reset();
+    submitBtn.disabled = false;
+  }
+
+  function showError() {
+    statusEl.className = "status err";
+    statusEl.textContent = "Something went wrong. Please try again.";
+    submitBtn.disabled = false;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const favourite = document.getElementById("favourite").value.trim();
+
+    if (!name || !email || !favourite) {
+      statusEl.className = "status err";
+      statusEl.textContent = "Please fill in name, email, and favourite anime.";
+      return;
+    }
+
+    statusEl.className = "status";
+    statusEl.textContent = "Sending...";
+    submitBtn.disabled = true;
+
+    const url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, email: email, favourite_anime: favourite });
+
+    fetch(url, { method: "GET", mode: "no-cors" })
+      .then(() => showSuccess())
+      .catch(() => showError());
+  });
+
+  // ---------- Star rating (visual only) ----------
+  const stars = document.querySelectorAll("#stars .star");
+  const ratingNote = document.getElementById("ratingNote");
+  stars.forEach(function (star) {
+    star.addEventListener("click", function () {
+      const v = Number(star.dataset.v);
+      stars.forEach(function (s) { s.classList.toggle("on", Number(s.dataset.v) <= v); });
+      ratingNote.textContent = v + (v === 1 ? " star" : " stars") + " selected";
+    });
+  });
+
+  // ---------- Category chips (visual only) ----------
+  document.querySelectorAll(".chip").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      document.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("active"); });
+      chip.classList.add("active");
+    });
+  });
+</script>
+</body>
+</html>
